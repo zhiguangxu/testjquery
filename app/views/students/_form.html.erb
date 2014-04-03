@@ -1,0 +1,40 @@
+<%= form_tag("/students", :method => "post", :id => "contactForm") do %>
+    Name: <%= text_field_tag(:name) %> <br/>
+    Address: <%= text_area_tag(:address) %> </br>
+    <%= submit_tag "Send" %>
+<% end %>
+<div id="result"></div>
+
+
+<script>
+
+
+
+
+$("#contactForm").submit(function(event) {
+
+	/* stop form from submitting normally */
+	event.preventDefault();
+
+	/* clear result div */
+	$("#result").html('');
+
+	/* get values from elements on the page: */
+	var values = $(this).serialize();
+
+	/* Send the data using post and put the results in a div */
+	$.ajax({
+		url: "/students",
+		type: "post",
+		data: values,
+		success: function(data, textStatus, xhr){
+		      alert("textStatus: " + textStatus + "; xhr: " + xhr + "; data: " + data);
+		      $("#result").html(data);
+		},
+
+		error:function(){
+			$("#result").html('there is error while submit');
+		}
+	});
+});
+</script>
